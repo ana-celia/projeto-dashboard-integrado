@@ -1,0 +1,62 @@
+{
+  "name": "Dashboard Platform",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "backend",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "root",
+  
+  "features": {
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "ms-python.vscode-pylance",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "ms-vscode.vscode-json",
+        "github.copilot"
+      ],
+      "settings": {
+        "python.pythonPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true,
+        "files.autoSave": "onFocusChange"
+      }
+    }
+  },
+
+  "forwardPorts": [8000, 3000, 8088, 3001, 5432, 6379],
+  "portsAttributes": {
+    "8000": {
+      "label": "Django Backend",
+      "onAutoForward": "notify"
+    },
+    "3000": {
+      "label": "React Frontend", 
+      "onAutoForward": "notify"
+    },
+    "8088": {
+      "label": "Superset",
+      "onAutoForward": "notify"
+    },
+    "3001": {
+      "label": "Metabase",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "postCreateCommand": "cd backend && pip install -r requirements.txt && python manage.py migrate",
+  "postStartCommand": "echo '🚀 Serviços disponíveis: Django:8000, React:3000, Superset:8088, Metabase:3001'"
+}
